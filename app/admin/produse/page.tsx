@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin-guard";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import AdminNav from "@/components/AdminNav";
 
 export default async function AdminProductsPage() {
   const admin = await requireAdmin();
@@ -15,6 +16,7 @@ export default async function AdminProductsPage() {
 
   return (
     <main style={{ padding: "2rem" }}>
+      <AdminNav isSuperAdmin={admin.role === "SUPER_ADMIN"} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
         <h1 style={{ fontSize: "20px", fontWeight: 500 }}>Produse</h1>
         <Link

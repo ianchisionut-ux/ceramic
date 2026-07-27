@@ -52,6 +52,14 @@ components/Header.tsx                      header cu logo, navigatie, cos, cont
 app/layout.tsx                             layout radacina (imbina cu cel existent, nu suprascrie)
 public/logo.jpg                            logo-ul gresie.
 
+Roluri si gestiune utilizatori
+app/admin/utilizatori/page.tsx             lista utilizatori + schimbare rol (doar SUPER_ADMIN)
+components/AdminNav.tsx                    navigatie in sectiunea admin
+components/UserRoleSelect.tsx              dropdown schimbare rol utilizator
+app/api/admin/users/route.ts               GET utilizatori (doar SUPER_ADMIN)
+app/api/admin/users/[id]/route.ts          PATCH rol utilizator (doar SUPER_ADMIN)
+lib/admin-guard.ts                         requireAdmin() (ADMIN+SUPER_ADMIN), requireSuperAdmin()
+
 .env.example                               variabile de mediu necesare
 ```
 
@@ -154,7 +162,9 @@ cere acum un driver adapter explicit (`@prisma/adapter-pg`), vezi
   Tabler icons, nu suprascrie fisierul existent
 - **Primul cont admin** - nu exista seed pentru asta; te inregistrezi
   normal prin `/cont/inregistrare`, apoi schimbi manual `role` in
-  `ADMIN` din `npx prisma studio`
+  `SUPER_ADMIN` din `npx prisma studio`. De acolo, din pagina
+  `/admin/utilizatori`, poti promova alte conturi la `ADMIN` fara sa
+  mai umbli in baza de date.
 - **Stilizare** - paginile au CSS inline minimal, schelet functional;
   poti extinde design-ul pornind de la `components/Header.tsx` si
   wordmark-ul `gresie.` din logo

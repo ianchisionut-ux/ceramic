@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin-guard";
 import { redirect } from "next/navigation";
 import OrderStatusSelect from "@/components/OrderStatusSelect";
+import AdminNav from "@/components/AdminNav";
 
 export default async function AdminOrdersPage() {
   const admin = await requireAdmin();
@@ -15,6 +16,7 @@ export default async function AdminOrdersPage() {
 
   return (
     <main style={{ padding: "2rem" }}>
+      <AdminNav isSuperAdmin={admin.role === "SUPER_ADMIN"} />
       <h1 style={{ fontSize: "20px", fontWeight: 500, marginBottom: "1rem" }}>Comenzi</h1>
 
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
