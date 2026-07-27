@@ -1,29 +1,35 @@
 /* app/globals.css */
 /* Daca proiectul are deja globals.css cu importul Tailwind, adauga
-   doar blocul de variabile si stilurile de baza de mai jos in el,
-   nu suprascrie fisierul intreg. */
+   doar blocul de variabile, fonturi si stilurile de baza de mai jos
+   in el, nu suprascrie fisierul intreg. */
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 :root {
-  /* paleta derivata din logo-ul "gresie." - tonuri calde de piatra/lemn,
-     negru pentru text si accent teracota/auriu din placa de lemn a logo-ului */
-  --color-bg: #f7f4ee;
+  /* paleta derivata din logo-ul "gresie." - piatra rece in loc de crem,
+     accent rosu-oxid din marmura inchisa cu vinisoare rosii a logo-ului,
+     nu terracotta generica */
+  --color-bg: #ece9e2;
   --color-surface: #ffffff;
-  --color-text: #1c1917;
-  --color-text-secondary: #6b6459;
+  --color-text: #1b1917;
+  --color-text-secondary: #6e6a61;
   --color-text-muted: #a39b8c;
-  --color-border: #e6e1d6;
-  --color-border-strong: #d3ccbc;
-  --color-primary: #1c1917;
+  --color-border: #dad5cb;
+  --color-border-strong: #c7c0b0;
+  --color-primary: #1b1917;
   --color-primary-hover: #33302b;
-  --color-accent: #a9784a;
-  --color-accent-hover: #8f6339;
-  --color-accent-bg: #f1e6d8;
+  --color-accent: #7a2e22;
+  --color-accent-hover: #5e241a;
+  --color-accent-bg: #f1e3de;
   --color-success-bg: #e7efe0;
   --color-success-text: #3f5c2c;
   --color-warning-bg: #f6ecd9;
   --color-warning-text: #8a5a1f;
   --color-danger: #a3402e;
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 * {
@@ -33,8 +39,15 @@
 body {
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
 }
 
 a {
@@ -71,4 +84,9 @@ button:hover {
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.price,
+.spec {
+  font-family: var(--font-mono);
 }

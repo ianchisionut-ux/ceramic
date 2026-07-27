@@ -43,7 +43,7 @@ export default function ProductAddToCart({ variants }: { variants: Variant[] }) 
   return (
     <div>
       <p style={{ fontSize: "22px", fontWeight: 500, margin: "0 0 4px" }}>
-        {variant.pricePerSqm} RON <span style={{ fontSize: "13px", fontWeight: 400, color: "var(--color-text-secondary)" }}>/ mp</span>
+        <span className="price">{variant.pricePerSqm} RON</span> <span style={{ fontSize: "13px", fontWeight: 400, color: "var(--color-text-secondary)" }}>/ mp</span>
       </p>
       <p style={{ fontSize: "12px", color: variant.stockBoxes > 0 ? "var(--color-success-text)" : "var(--color-danger)", margin: "0 0 16px" }}>
         {variant.stockBoxes > 0 ? `In stoc · ${(variant.stockBoxes * variant.sqmPerBox).toFixed(1)} mp disponibili` : "Stoc epuizat"}

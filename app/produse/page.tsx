@@ -80,7 +80,7 @@ export default async function ProduseListPage({
                 </div>
                 <div style={{ padding: "12px" }}>
                   <p style={{ fontWeight: 500, marginBottom: "4px" }}>{product.name}</p>
-                  <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>de la {minPrice} RON/mp</p>
+                  <p className="price" style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>de la {minPrice} RON/mp</p>
                 </div>
               </Link>
             );

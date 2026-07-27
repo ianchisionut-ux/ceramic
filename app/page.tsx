@@ -1,6 +1,7 @@
 // app/page.tsx
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import SwatchRail from "@/components/SwatchRail";
 
 export default async function HomePage() {
   const [categories, featured] = await Promise.all([
@@ -36,10 +37,13 @@ export default async function HomePage() {
         <h1 style={{ fontSize: "34px", fontWeight: 500, margin: "0 0 16px", letterSpacing: "-0.01em" }}>
           Gresie pentru fiecare spatiu al casei tale
         </h1>
-        <p style={{ fontSize: "15px", color: "var(--color-text-secondary)", maxWidth: "460px", margin: "0 auto 28px" }}>
+        <p style={{ fontSize: "15px", color: "var(--color-text-secondary)", maxWidth: "460px", margin: "0 auto 32px" }}>
           Baie, bucatarie, living sau exterior - o colectie ingrijita, la un raport
           calitate-pret potrivit pentru orice proiect de amenajare.
         </p>
+        <div style={{ marginBottom: "32px", display: "flex", justifyContent: "center" }}>
+          <SwatchRail />
+        </div>
         <Link
           href="/produse"
           style={{
@@ -112,7 +116,7 @@ export default async function HomePage() {
                   </div>
                   <div style={{ padding: "12px" }}>
                     <p style={{ fontWeight: 500, marginBottom: "4px", fontSize: "14px" }}>{product.name}</p>
-                    <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>de la {minPrice} RON/mp</p>
+                    <p className="price" style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>de la {minPrice} RON/mp</p>
                   </div>
                 </Link>
               );
