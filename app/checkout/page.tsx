@@ -1,9 +1,9 @@
 "use client";
 // app/checkout/page.tsx
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function CheckoutPage() {
+function CheckoutForm() {
   const searchParams = useSearchParams();
   const cartId = searchParams.get("cartId") ?? "";
 
@@ -128,5 +128,13 @@ export default function CheckoutPage() {
         {status === "loading" ? "Se proceseaza..." : "Trimite comanda"}
       </button>
     </main>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<main style={{ padding: "2rem" }}>Se incarca...</main>}>
+      <CheckoutForm />
+    </Suspense>
   );
 }
