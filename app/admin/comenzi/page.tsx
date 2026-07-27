@@ -29,11 +29,11 @@ export default async function AdminOrdersPage() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((o) => (
+          {orders.map((o: (typeof orders)[number]) => (
             <tr key={o.id} style={{ borderBottom: "1px solid #eee" }}>
               <td style={{ padding: "8px" }}>#{o.orderNumber}</td>
               <td style={{ padding: "8px" }}>{o.user ? `${o.user.firstName} ${o.user.lastName}` : o.guestEmail}</td>
-              <td style={{ padding: "8px" }}>{o.items.map((i) => i.variant.product.name).join(", ")}</td>
+              <td style={{ padding: "8px" }}>{o.items.map((i: (typeof o.items)[number]) => i.variant.product.name).join(", ")}</td>
               <td style={{ padding: "8px" }}>{Number(o.total).toFixed(0)} RON</td>
               <td style={{ padding: "8px" }}>{o.paymentStatus}</td>
               <td style={{ padding: "8px" }}>

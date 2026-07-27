@@ -30,14 +30,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const product = await getProduct(slug);
   if (!product) notFound();
 
-  const minPrice = Math.min(...product.variants.map((v) => Number(v.pricePerSqm)));
+  const minPrice = Math.min(...product.variants.map((v: (typeof product.variants)[number]) => Number(v.pricePerSqm)));
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     description: product.description,
-    image: product.images.map((i) => i.url),
+    image: product.images.map((i: (typeof product.images)[number]) => i.url),
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "RON",
@@ -79,7 +79,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           </p>
 
           <ProductAddToCart
-            variants={product.variants.map((v) => ({
+            variants={product.variants.map((v: (typeof product.variants)[number]) => ({
               id: v.id,
               size: v.size,
               pricePerSqm: Number(v.pricePerSqm),

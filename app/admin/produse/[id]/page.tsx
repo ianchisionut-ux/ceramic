@@ -60,7 +60,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       </button>
 
       <p style={{ fontSize: "13px", fontWeight: 500, marginBottom: "8px" }}>Variante - stoc si pret</p>
-      {product.variants.map((v) => (
+      {product.variants.map((v: (typeof product.variants)[number]) => (
         <div key={v.id} style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "8px" }}>
           <span style={{ fontSize: "13px", width: "60px" }}>{v.size}</span>
           <input

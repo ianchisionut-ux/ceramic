@@ -46,7 +46,7 @@ export default async function ProduseListPage({
           <li>
             <Link href="/produse">Toate</Link>
           </li>
-          {categories.map((c) => (
+          {categories.map((c: (typeof categories)[number]) => (
             <li key={c.id}>
               <Link href={`/produse?categorie=${c.slug}`}>{c.name}</Link>
             </li>
@@ -56,12 +56,12 @@ export default async function ProduseListPage({
 
       <section>
         <h1 style={{ fontSize: "22px", fontWeight: 500, marginBottom: "1rem" }}>
-          {categorie ? categories.find((c) => c.slug === categorie)?.name : "Toate produsele"}
+          {categorie ? categories.find((c: (typeof categories)[number]) => c.slug === categorie)?.name : "Toate produsele"}
         </h1>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px" }}>
-          {products.map((product) => {
-            const minPrice = Math.min(...product.variants.map((v) => Number(v.pricePerSqm)));
+          {products.map((product: (typeof products)[number]) => {
+            const minPrice = Math.min(...product.variants.map((v: (typeof product.variants)[number]) => Number(v.pricePerSqm)));
             return (
               <Link
                 key={product.id}

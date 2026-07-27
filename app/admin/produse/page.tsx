@@ -37,7 +37,7 @@ export default async function AdminProductsPage() {
           </tr>
         </thead>
         <tbody>
-          {products.map((p) => {
+          {products.map((p: (typeof products)[number]) => {
             const stockSqm = p.variants.reduce((sum, v) => sum + v.stockBoxes * Number(v.sqmPerBox), 0);
             return (
               <tr key={p.id} style={{ borderBottom: "1px solid #eee" }}>

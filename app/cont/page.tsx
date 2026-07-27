@@ -26,7 +26,7 @@ export default async function AccountPage() {
       <h2 style={{ fontSize: "15px", fontWeight: 500, marginBottom: "12px" }}>Comenzile mele</h2>
       {orders.length === 0 && <p style={{ fontSize: "13px", color: "#666" }}>Nu ai comenzi inca.</p>}
 
-      {orders.map((o) => (
+      {orders.map((o: (typeof orders)[number]) => (
         <div key={o.id} style={{ border: "1px solid #eee", borderRadius: "10px", padding: "12px", marginBottom: "8px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
             <span style={{ fontSize: "13px", fontWeight: 500 }}>Comanda #{o.orderNumber}</span>
@@ -41,7 +41,7 @@ export default async function AccountPage() {
       <h2 style={{ fontSize: "15px", fontWeight: 500, margin: "24px 0 12px" }}>Adrese salvate</h2>
       {user?.addresses.length === 0 && <p style={{ fontSize: "13px", color: "#666" }}>Nu ai adrese salvate.</p>}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-        {user?.addresses.map((a) => (
+        {user?.addresses.map((a: NonNullable<typeof user>["addresses"][number]) => (
           <div key={a.id} style={{ border: "1px solid #eee", borderRadius: "10px", padding: "10px" }}>
             <p style={{ fontSize: "12px", fontWeight: 500, marginBottom: "2px" }}>{a.label}</p>
             <p style={{ fontSize: "11px", color: "#666" }}>

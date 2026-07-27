@@ -3,12 +3,12 @@
 // Stiva: Next.js 16 + TypeScript + Prisma ORM + PostgreSQL (Neon) + Vercel
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // ============ UTILIZATORI SI AUTENTIFICARE ============
