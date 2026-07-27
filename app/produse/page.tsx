@@ -66,9 +66,9 @@ export default async function ProduseListPage({
               <Link
                 key={product.id}
                 href={`/produse/${product.slug}`}
-                style={{ border: "1px solid #e5e5e5", borderRadius: "12px", overflow: "hidden", textDecoration: "none", color: "inherit" }}
+                style={{ border: "1px solid var(--color-border)", borderRadius: "12px", overflow: "hidden", textDecoration: "none", color: "inherit" }}
               >
-                <div style={{ height: "160px", background: "#f5f5f5" }}>
+                <div style={{ height: "160px", background: "var(--color-bg)" }}>
                   {product.images[0] && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -80,7 +80,7 @@ export default async function ProduseListPage({
                 </div>
                 <div style={{ padding: "12px" }}>
                   <p style={{ fontWeight: 500, marginBottom: "4px" }}>{product.name}</p>
-                  <p style={{ fontSize: "13px", color: "#666" }}>de la {minPrice} RON/mp</p>
+                  <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>de la {minPrice} RON/mp</p>
                 </div>
               </Link>
             );

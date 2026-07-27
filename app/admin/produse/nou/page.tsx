@@ -74,9 +74,9 @@ export default function NewProductPage() {
         <input type="number" placeholder="Stoc (cutii)" value={form.stockBoxes} onChange={(e) => update("stockBoxes", Number(e.target.value))} style={{ padding: "8px" }} />
       </div>
 
-      {error && <p style={{ color: "#a32d2d", fontSize: "13px", marginBottom: "12px" }}>{error}</p>}
+      {error && <p style={{ color: "var(--color-danger)", fontSize: "13px", marginBottom: "12px" }}>{error}</p>}
 
-      <button onClick={submit} disabled={status === "loading"} style={{ width: "100%", padding: "10px", background: "#185fa5", color: "white", border: "none", borderRadius: "6px" }}>
+      <button onClick={submit} disabled={status === "loading"} style={{ width: "100%", padding: "10px", background: "var(--color-primary)", color: "white", border: "none", borderRadius: "6px" }}>
         {status === "loading" ? "Se salveaza..." : "Salveaza produsul"}
       </button>
     </main>

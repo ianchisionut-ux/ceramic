@@ -19,7 +19,7 @@ export default async function AdminOrdersPage() {
 
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
         <thead>
-          <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd" }}>
+          <tr style={{ textAlign: "left", borderBottom: "1px solid var(--color-border-strong)" }}>
             <th style={{ padding: "8px" }}>Nr.</th>
             <th style={{ padding: "8px" }}>Client</th>
             <th style={{ padding: "8px" }}>Produse</th>
@@ -30,7 +30,7 @@ export default async function AdminOrdersPage() {
         </thead>
         <tbody>
           {orders.map((o: (typeof orders)[number]) => (
-            <tr key={o.id} style={{ borderBottom: "1px solid #eee" }}>
+            <tr key={o.id} style={{ borderBottom: "1px solid var(--color-border)" }}>
               <td style={{ padding: "8px" }}>#{o.orderNumber}</td>
               <td style={{ padding: "8px" }}>{o.user ? `${o.user.firstName} ${o.user.lastName}` : o.guestEmail}</td>
               <td style={{ padding: "8px" }}>{o.items.map((i: (typeof o.items)[number]) => i.variant.product.name).join(", ")}</td>

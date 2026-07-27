@@ -54,13 +54,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <p style={{ fontSize: "12px", color: "#999", marginBottom: "14px" }}>
+      <p style={{ fontSize: "12px", color: "var(--color-text-muted)", marginBottom: "14px" }}>
         Acasa / {product.category.name} / {product.name}
       </p>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
         <div>
-          <div style={{ height: "320px", background: "#f5f5f5", borderRadius: "12px" }}>
+          <div style={{ height: "320px", background: "var(--color-bg)", borderRadius: "12px" }}>
             {product.images[0] && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -74,7 +74,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
         <div>
           <h1 style={{ fontSize: "22px", fontWeight: 500, margin: "0 0 4px" }}>{product.name}</h1>
-          <p style={{ fontSize: "13px", color: "#666", marginBottom: "16px" }}>
+          <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", marginBottom: "16px" }}>
             {product.material} {product.finish ? `· finisaj ${product.finish}` : ""}
           </p>
 
@@ -90,9 +90,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </div>
 
-      <div style={{ marginTop: "2rem", paddingTop: "1rem", borderTop: "1px solid #eee" }}>
+      <div style={{ marginTop: "2rem", paddingTop: "1rem", borderTop: "1px solid var(--color-border)" }}>
         <h2 style={{ fontSize: "16px", fontWeight: 500, marginBottom: "8px" }}>Descriere</h2>
-        <p style={{ fontSize: "14px", lineHeight: 1.7, color: "#444" }}>{product.description}</p>
+        <p style={{ fontSize: "14px", lineHeight: 1.7, color: "var(--color-text)" }}>{product.description}</p>
       </div>
     </main>
   );

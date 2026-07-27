@@ -21,30 +21,30 @@ export default async function AccountPage() {
       <h1 style={{ fontSize: "20px", fontWeight: 500, marginBottom: "4px" }}>
         Salut, {user?.firstName}
       </h1>
-      <p style={{ fontSize: "13px", color: "#666", marginBottom: "24px" }}>{user?.email}</p>
+      <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", marginBottom: "24px" }}>{user?.email}</p>
 
       <h2 style={{ fontSize: "15px", fontWeight: 500, marginBottom: "12px" }}>Comenzile mele</h2>
-      {orders.length === 0 && <p style={{ fontSize: "13px", color: "#666" }}>Nu ai comenzi inca.</p>}
+      {orders.length === 0 && <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>Nu ai comenzi inca.</p>}
 
       {orders.map((o: (typeof orders)[number]) => (
-        <div key={o.id} style={{ border: "1px solid #eee", borderRadius: "10px", padding: "12px", marginBottom: "8px" }}>
+        <div key={o.id} style={{ border: "1px solid var(--color-border)", borderRadius: "10px", padding: "12px", marginBottom: "8px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
             <span style={{ fontSize: "13px", fontWeight: 500 }}>Comanda #{o.orderNumber}</span>
-            <span style={{ fontSize: "11px", padding: "2px 8px", borderRadius: "10px", background: "#f1f1f1" }}>{o.status}</span>
+            <span style={{ fontSize: "11px", padding: "2px 8px", borderRadius: "10px", background: "var(--color-bg)" }}>{o.status}</span>
           </div>
-          <p style={{ fontSize: "12px", color: "#666" }}>
+          <p style={{ fontSize: "12px", color: "var(--color-text-secondary)" }}>
             {o.items.length} produse - {Number(o.total).toFixed(0)} RON
           </p>
         </div>
       ))}
 
       <h2 style={{ fontSize: "15px", fontWeight: 500, margin: "24px 0 12px" }}>Adrese salvate</h2>
-      {user?.addresses.length === 0 && <p style={{ fontSize: "13px", color: "#666" }}>Nu ai adrese salvate.</p>}
+      {user?.addresses.length === 0 && <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>Nu ai adrese salvate.</p>}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
         {user?.addresses.map((a: NonNullable<typeof user>["addresses"][number]) => (
-          <div key={a.id} style={{ border: "1px solid #eee", borderRadius: "10px", padding: "10px" }}>
+          <div key={a.id} style={{ border: "1px solid var(--color-border)", borderRadius: "10px", padding: "10px" }}>
             <p style={{ fontSize: "12px", fontWeight: 500, marginBottom: "2px" }}>{a.label}</p>
-            <p style={{ fontSize: "11px", color: "#666" }}>
+            <p style={{ fontSize: "11px", color: "var(--color-text-secondary)" }}>
               {a.street}, {a.city}
             </p>
           </div>

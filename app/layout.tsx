@@ -1,7 +1,9 @@
 // app/layout.tsx
-// Daca proiectul are deja un app/layout.tsx, imbina doar <Header /> si
-// referinta catre iconsul Tabler in el, in loc sa suprascrii fisierul.
+// Daca proiectul are deja un app/layout.tsx, imbina doar <Header />,
+// importul globals.css si linkul catre iconsul Tabler in el, in loc
+// sa suprascrii fisierul.
 import type { Metadata } from "next";
+import "./globals.css";
 import Header from "@/components/Header";
 
 export const metadata: Metadata = {
@@ -16,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css" />
       </head>
-      <body style={{ margin: 0, fontFamily: "system-ui, sans-serif", color: "#111" }}>
+      <body>
         <Header />
         {children}
       </body>

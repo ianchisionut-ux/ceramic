@@ -68,17 +68,17 @@ export default function RegisterPage() {
         style={{ width: "100%", padding: "10px", marginBottom: "16px", textAlign: "left" }}
       />
 
-      {status === "error" && <p style={{ color: "#a32d2d", fontSize: "13px", marginBottom: "12px" }}>{error}</p>}
+      {status === "error" && <p style={{ color: "var(--color-danger)", fontSize: "13px", marginBottom: "12px" }}>{error}</p>}
 
       <button
         onClick={handleSubmit}
         disabled={status === "loading"}
-        style={{ width: "100%", padding: "10px", background: "#111", color: "white", border: "none", borderRadius: "6px", marginBottom: "16px" }}
+        style={{ width: "100%", padding: "10px", background: "var(--color-primary)", color: "white", border: "none", borderRadius: "6px", marginBottom: "16px" }}
       >
         {status === "loading" ? "Se creeaza contul..." : "Creeaza cont"}
       </button>
 
-      <p style={{ fontSize: "13px", color: "#666" }}>
+      <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>
         Ai deja cont? <Link href="/cont/login">Autentifica-te</Link>
       </p>
     </main>

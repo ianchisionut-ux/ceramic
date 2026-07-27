@@ -17,7 +17,7 @@ export default async function OrderSuccessPage({
           width: "56px",
           height: "56px",
           borderRadius: "50%",
-          background: "#eaf3de",
+          background: "var(--color-success-bg)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -30,14 +30,14 @@ export default async function OrderSuccessPage({
 
       <h1 style={{ fontSize: "20px", fontWeight: 500, marginBottom: "8px" }}>Comanda a fost inregistrata</h1>
       {order && (
-        <p style={{ fontSize: "14px", color: "#666", marginBottom: "20px" }}>
+        <p style={{ fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "20px" }}>
           Numarul comenzii tale este <strong>#{order}</strong>. Vei primi un email de confirmare in scurt timp.
         </p>
       )}
 
       <Link
         href="/produse"
-        style={{ display: "inline-block", padding: "10px 20px", background: "#111", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "13px" }}
+        style={{ display: "inline-block", padding: "10px 20px", background: "var(--color-primary)", color: "white", borderRadius: "6px", textDecoration: "none", fontSize: "13px" }}
       >
         Continua cumparaturile
       </Link>

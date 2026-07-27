@@ -44,18 +44,18 @@ export default function LoginPage() {
       />
 
       {status === "error" && (
-        <p style={{ color: "#a32d2d", fontSize: "13px", marginBottom: "12px" }}>Email sau parola incorecte.</p>
+        <p style={{ color: "var(--color-danger)", fontSize: "13px", marginBottom: "12px" }}>Email sau parola incorecte.</p>
       )}
 
       <button
         onClick={handleSubmit}
         disabled={status === "loading"}
-        style={{ width: "100%", padding: "10px", background: "#111", color: "white", border: "none", borderRadius: "6px", marginBottom: "16px" }}
+        style={{ width: "100%", padding: "10px", background: "var(--color-primary)", color: "white", border: "none", borderRadius: "6px", marginBottom: "16px" }}
       >
         {status === "loading" ? "Se autentifica..." : "Intra in cont"}
       </button>
 
-      <p style={{ fontSize: "13px", color: "#666" }}>
+      <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>
         Nu ai cont? <Link href="/cont/inregistrare">Inregistreaza-te</Link>
       </p>
     </main>

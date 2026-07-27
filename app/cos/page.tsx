@@ -66,11 +66,11 @@ export default function CartPage() {
       {items.map((item) => (
         <div
           key={item.id}
-          style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: "1px solid #eee" }}
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: "1px solid var(--color-border)" }}
         >
           <div>
             <p style={{ fontWeight: 500, marginBottom: "2px" }}>{item.productName}</p>
-            <p style={{ fontSize: "12px", color: "#666" }}>
+            <p style={{ fontSize: "12px", color: "var(--color-text-secondary)" }}>
               {item.size} · {item.sqm.toFixed(2)} mp · {item.pricePerSqm} RON/mp
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function CartPage() {
 
       <Link
         href={`/checkout?cartId=${cartId}`}
-        style={{ display: "block", textAlign: "center", padding: "12px", background: "#185fa5", color: "white", borderRadius: "6px", textDecoration: "none" }}
+        style={{ display: "block", textAlign: "center", padding: "12px", background: "var(--color-primary)", color: "white", borderRadius: "6px", textDecoration: "none" }}
       >
         Continua spre checkout
       </Link>

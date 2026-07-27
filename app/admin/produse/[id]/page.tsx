@@ -55,7 +55,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         Produs activ (vizibil pe site)
       </label>
 
-      <button onClick={saveProduct} disabled={saving} style={{ padding: "8px 14px", background: "#185fa5", color: "white", border: "none", borderRadius: "6px", marginBottom: "20px" }}>
+      <button onClick={saveProduct} disabled={saving} style={{ padding: "8px 14px", background: "var(--color-primary)", color: "white", border: "none", borderRadius: "6px", marginBottom: "20px" }}>
         {saving ? "Se salveaza..." : "Salveaza"}
       </button>
 

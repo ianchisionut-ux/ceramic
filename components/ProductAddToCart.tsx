@@ -43,13 +43,13 @@ export default function ProductAddToCart({ variants }: { variants: Variant[] }) 
   return (
     <div>
       <p style={{ fontSize: "22px", fontWeight: 500, margin: "0 0 4px" }}>
-        {variant.pricePerSqm} RON <span style={{ fontSize: "13px", fontWeight: 400, color: "#666" }}>/ mp</span>
+        {variant.pricePerSqm} RON <span style={{ fontSize: "13px", fontWeight: 400, color: "var(--color-text-secondary)" }}>/ mp</span>
       </p>
-      <p style={{ fontSize: "12px", color: variant.stockBoxes > 0 ? "#0f6e56" : "#a32d2d", margin: "0 0 16px" }}>
+      <p style={{ fontSize: "12px", color: variant.stockBoxes > 0 ? "var(--color-success-text)" : "var(--color-danger)", margin: "0 0 16px" }}>
         {variant.stockBoxes > 0 ? `In stoc · ${(variant.stockBoxes * variant.sqmPerBox).toFixed(1)} mp disponibili` : "Stoc epuizat"}
       </p>
 
-      <p style={{ fontSize: "12px", fontWeight: 500, color: "#666", margin: "0 0 6px" }}>Dimensiune</p>
+      <p style={{ fontSize: "12px", fontWeight: 500, color: "var(--color-text-secondary)", margin: "0 0 6px" }}>Dimensiune</p>
       <div style={{ display: "flex", gap: "8px", marginBottom: "14px" }}>
         {variants.map((v) => (
           <button
@@ -58,7 +58,7 @@ export default function ProductAddToCart({ variants }: { variants: Variant[] }) 
             style={{
               padding: "6px 12px",
               fontSize: "12px",
-              border: v.id === variantId ? "1px solid #185fa5" : "1px solid #ddd",
+              border: v.id === variantId ? "1px solid var(--color-primary)" : "1px solid var(--color-border-strong)",
               borderRadius: "6px",
               background: "white",
             }}
@@ -68,7 +68,7 @@ export default function ProductAddToCart({ variants }: { variants: Variant[] }) 
         ))}
       </div>
 
-      <p style={{ fontSize: "12px", fontWeight: 500, color: "#666", margin: "0 0 6px" }}>Suprafata dorita (mp)</p>
+      <p style={{ fontSize: "12px", fontWeight: 500, color: "var(--color-text-secondary)", margin: "0 0 6px" }}>Suprafata dorita (mp)</p>
       <input
         type="number"
         value={desiredSqm}
@@ -76,19 +76,19 @@ export default function ProductAddToCart({ variants }: { variants: Variant[] }) 
         onChange={(e) => setDesiredSqm(Number(e.target.value))}
         style={{ width: "100px", padding: "6px 10px", marginBottom: "6px" }}
       />
-      <p style={{ fontSize: "12px", color: "#666", margin: "0 0 16px" }}>
+      <p style={{ fontSize: "12px", color: "var(--color-text-secondary)", margin: "0 0 16px" }}>
         Necesare: <strong>{boxesNeeded} cutii</strong> ({(boxesNeeded * variant.sqmPerBox).toFixed(2)} mp) - total {total.toFixed(0)} RON
       </p>
 
       <button
         onClick={addToCart}
         disabled={status === "loading" || variant.stockBoxes === 0}
-        style={{ width: "100%", padding: "10px", background: "#185fa5", color: "white", border: "none", borderRadius: "6px" }}
+        style={{ width: "100%", padding: "10px", background: "var(--color-primary)", color: "white", border: "none", borderRadius: "6px" }}
       >
         {status === "loading" ? "Se adauga..." : "Adauga in cos"}
       </button>
       {message && (
-        <p style={{ fontSize: "12px", marginTop: "8px", color: status === "error" ? "#a32d2d" : "#0f6e56" }}>{message}</p>
+        <p style={{ fontSize: "12px", marginTop: "8px", color: status === "error" ? "var(--color-danger)" : "var(--color-success-text)" }}>{message}</p>
       )}
     </div>
   );

@@ -1,0 +1,233 @@
+// schema.prisma
+// Schema pentru magazin online gresie/produse - catalog, cos, comenzi, conturi client
+// Stiva: Next.js 16 + TypeScript + Prisma ORM + PostgreSQL (Neon) + Vercel
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============ UTILIZATORI SI AUTENTIFICARE ============
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String? // null daca autentificare doar prin magic link / OAuth
+  firstName     String
+  lastName      String
+  phone         String?
+  role          UserRole  @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  addresses Address[]
+  orders    Order[]
+  cart      Cart?
+  reviews   Review[]
+  wishlist  WishlistItem[]
+
+  @@index([email])
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label      String // ex: "Acasa", "Santier"
+  street     String
+  city       String
+  county     String
+  postalCode String
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  orders Order[]
+
+  @@index([userId])
+}
+
+// ============ CATALOG ============
+
+model Category {
+  id       String     @id @default(cuid())
+  slug     String     @unique
+  name     String
+  parentId String?
+  parent   Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryToCategory")
+  products Product[]
+
+  seoTitle       String?
+  seoDescription String?
+
+  @@index([parentId])
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String   @db.Text
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  finish     String? // mat, lucios, antiderapant
+  material   String  @default("Gresie portelanata rectificata")
+  featured   Boolean @default(false)
+  isActive   Boolean @default(true)
+
+  seoTitle       String?
+  seoDescription String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  variants ProductVariant[]
+  images   ProductImage[]
+  reviews  Review[]
+  wishlist WishlistItem[]
+
+  @@index([categoryId])
+  @@index([slug])
+}
+
+// O varianta = o combinatie dimensiune/finisaj cu pret si stoc propriu
+model ProductVariant {
+  id            String  @id @default(cuid())
+  productId     String
+  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size          String // ex: "30x60", "60x60"
+  pricePerSqm   Decimal @db.Decimal(10, 2)
+  sqmPerBox     Decimal @db.Decimal(6, 3) // ex: 1.44 mp/cutie
+  stockBoxes    Int     @default(0)
+  sku           String  @unique
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  @@index([productId])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  altText   String?
+  position  Int     @default(0)
+
+  @@index([productId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int // 1-5
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+// ============ COS DE CUMPARATURI ============
+// Cos legat de user (client logat) - pentru guest checkout, cosul se tine
+// in cookie/session pe server si se leaga de user doar la autentificare.
+
+model Cart {
+  id          String     @id @default(cuid())
+  userId      String?    @unique
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guestToken  String?    @unique // folosit pentru cos de vizitator, inainte de autentificare
+  items       CartItem[]
+  updatedAt   DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String         @id @default(cuid())
+  cartId    String
+  cart      Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+  boxes     Int // cantitate in cutii, deja rotunjita din mp dorit
+  createdAt DateTime       @default(now())
+
+  @@unique([cartId, variantId])
+}
+
+// ============ COMENZI ============
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique // ex: "4521"
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id])
+  guestEmail      String? // pentru guest checkout
+  addressId       String?
+  address         Address?    @relation(fields: [addressId], references: [id])
+
+  status          OrderStatus @default(PENDING)
+  deliveryMethod  String // "curier" | "ridicare_depozit"
+  subtotal        Decimal     @db.Decimal(10, 2)
+  deliveryFee     Decimal     @db.Decimal(10, 2) @default(0)
+  total           Decimal     @db.Decimal(10, 2)
+
+  paymentMethod   String // "card" | "ramburs"
+  paymentStatus   String      @default("pending") // pending | paid | failed
+  invoiceUrl      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([orderNumber])
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model OrderItem {
+  id           String         @id @default(cuid())
+  orderId      String
+  order        Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variantId    String
+  variant      ProductVariant @relation(fields: [variantId], references: [id])
+  boxes        Int
+  pricePerSqm  Decimal        @db.Decimal(10, 2) // pret salvat la momentul comenzii
+  sqmPerBox    Decimal        @db.Decimal(6, 3)
+  lineTotal    Decimal        @db.Decimal(10, 2)
+
+  @@index([orderId])
+}
