@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ceramic-evo shop - pachet backend
 
-## Getting Started
+Acest pachet contine fundatia pentru catalog, cos, comenzi, conturi de client
+si plata online, gata de integrat intr-un proiect Next.js 16 (App Router)
++ TypeScript + Prisma + PostgreSQL, in stilul proiectului PMCUSTOMS.
 
-First, run the development server:
+## Structura
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+schema.prisma                              modelele: User, Address, Category,
+                                            Product, ProductVariant, Cart, Order...
+prisma/seed.ts                             categorii + produse reale de test
+auth.ts                                    config NextAuth (login email+parola)
+lib/prisma.ts                              Prisma Client singleton
+lib/cart.ts                                cos user logat / cos guest (cookie)
+lib/password.ts                            hash/verificare parola (bcrypt)
+lib/stripe.ts                              client Stripe
+lib/admin-guard.ts                         verifica rol ADMIN pentru pagini/API admin
+
+API public
+app/api/cart/route.ts                      GET continut cos, POST adauga produs
+app/api/cart/[itemId]/route.ts             PATCH cantitate, DELETE elimina
+app/api/checkout/route.ts                  creeaza comanda + porneste plata
+app/api/auth/[...nextauth]/route.ts        handler NextAuth
+app/api/auth/register/route.ts             creare cont nou
+app/api/webhooks/stripe/route.ts           confirmare plata din Stripe
+
+Pagini frontend
+app/produse/page.tsx                       catalog cu filtrare pe categorie (SEO)
+app/produse/[slug]/page.tsx                pagina de produs + schema.org + calculator mp-cutii
+app/cos/page.tsx                           cos de cumparaturi
+app/checkout/page.tsx                      formular finalizare comanda
+components/ProductAddToCart.tsx            client component - selector varianta + adauga in cos
+
+Admin dashboard
+app/admin/produse/page.tsx                 lista produse cu stoc
+app/admin/produse/nou/page.tsx             formular produs nou
+app/admin/produse/[id]/page.tsx            editare produs + stoc/pret pe varianta
+app/admin/comenzi/page.tsx                 inbox comenzi cu schimbare status
+components/OrderStatusSelect.tsx           dropdown schimbare status comanda
+app/api/admin/products/route.ts            GET/POST produse (protejat ADMIN)
+app/api/admin/products/[id]/route.ts       PATCH/DELETE produs
+app/api/admin/variants/[id]/route.ts       PATCH stoc/pret varianta
+app/api/admin/orders/[id]/route.ts         PATCH status comanda
+
+Autentificare si cont
+app/cont/login/page.tsx                    autentificare cu email + parola
+app/cont/inregistrare/page.tsx             creare cont nou
+app/cont/page.tsx                          panou cont - istoric comenzi, adrese
+app/comanda/succes/page.tsx                confirmare dupa finalizarea comenzii
+components/Header.tsx                      header cu logo, navigatie, cos, cont
+app/layout.tsx                             layout radacina (imbina cu cel existent, nu suprascrie)
+public/logo.jpg                            logo-ul gresie.
+
+.env.example                               variabile de mediu necesare
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Pasi de instalare
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Copiaza fisierele in radacina proiectului tau Next.js, pastrand structura
+   de foldere (`app/api/...`, `lib/...`, `prisma/...`).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Instaleaza pachetele:
+   ```
+   npm install @prisma/client next-auth@beta bcryptjs resend stripe
+   npm install -D prisma @types/bcryptjs
+   ```
 
-## Learn More
+3. Copiaza `.env.example` in `.env` si completeaza valorile (DATABASE_URL
+   de la Neon, RESEND_API_KEY, cheile Stripe).
 
-To learn more about Next.js, take a look at the following resources:
+4. Genereaza baza de date si clientul Prisma:
+   ```
+   npx prisma migrate dev --name init
+   npx prisma db seed
+   ```
+   Daca `db seed` nu porneste automat, adauga in package.json:
+   ```json
+   "prisma": { "seed": "ts-node prisma/seed.ts" }
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Pentru Stripe local, foloseste Stripe CLI pentru webhook:
+   ```
+   stripe listen --forward-to localhost:3000/api/webhooks/stripe
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+6. Ruleaza proiectul:
+   ```
+   npm run dev
+   ```
 
-## Deploy on Vercel
+## Ce mai trebuie facut manual
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **`app/layout.tsx`** inclus aici e un starter minimal - daca ai deja
+  un layout in proiect, imbina doar `<Header />` si linkul catre
+  Tabler icons, nu suprascrie fisierul existent
+- **Primul cont admin** - nu exista seed pentru asta; te inregistrezi
+  normal prin `/cont/inregistrare`, apoi schimbi manual `role` in
+  `ADMIN` din `npx prisma studio`
+- **Stilizare** - paginile au CSS inline minimal, schelet functional;
+  poti extinde design-ul pornind de la `components/Header.tsx` si
+  wordmark-ul `gresie.` din logo
+- Daca preferi un procesator romanesc in loc de Stripe: Netopia sau
+  EuPlatesc - structura din `app/api/checkout/route.ts` ramane aceeasi,
+  se schimba doar apelul catre SDK-ul lor si webhook-ul de confirmare
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Nota despre stoc si concurenta
+
+Verificarea de stoc din `checkout/route.ts` e facuta inainte de a crea
+comanda, dar la trafic mare exista o fereastra scurta de race condition
+intre doi clienti care cumpara ultimele cutii simultan. Pentru volum mare
+de vanzari, ia in calcul sa adaugi un lock optimist (camp `version` pe
+`ProductVariant`, actualizat cu verificare in tranzactie) sau o coada
+(ex: queue in Redis) la finalizarea comenzii.
